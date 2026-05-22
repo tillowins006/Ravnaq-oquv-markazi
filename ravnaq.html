@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAVNAQ | Kimyo Oʻyinlari</title>
+    <style>
+        :root {
+            --bg-color: #03141a;
+            --card-bg: #06222c;
+            --neon-blue: #00f3ff;
+            --neon-green: #00ffaa;
+            --neon-red: #ff3366;
+            --text-main: #ffffff;
+            --text-muted: #8fa0a6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: linear-gradient(rgba(3, 20, 26, 0.95), rgba(3, 20, 26, 0.95)), 
+                              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><path d="M30 0 L60 30 L30 60 L0 30 Z" fill="none" stroke="%23063545" stroke-width="1"/></svg>');
+            color: var(--text-main);
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
+        }
+
+        .phone-container {
+            width: 100%; max-width: 410px; background: var(--bg-color); border-radius: 20px;
+            overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 40px rgba(0, 243, 255, 0.1);
+            position: relative;
+        }
+
+        header { text-align: center; padding: 20px 10px 10px; }
+        .top-title { color: var(--neon-blue); font-size: 20px; font-weight: 700; text-shadow: 0 0 12px rgba(0, 243, 255, 0.6); margin-bottom: 8px; }
+        .badge-sub { display: inline-block; border: 1px solid rgba(0, 255, 170, 0.3); background: rgba(0, 255, 170, 0.05); color: var(--neon-green); padding: 4px 15px; border-radius: 20px; font-size: 13px; }
+
+        .card { background: var(--card-bg); border: 1px solid rgba(0, 243, 255, 0.1); border-radius: 24px; padding: 25px 20px; margin: 15px; box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4); text-align: center; }
+        .logo-wrapper { display: flex; justify-content: center; margin-bottom: 15px; }
+        
+        .ravnaq-circle-logo { 
+            width: 120px; 
+            height: 120px; 
+            border-radius: 50%; 
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+            object-fit: cover;
+            background-color: #041a24;
+        }
+
+        .brand-title { font-size: 24px; font-weight: 700; line-height: 1.2; margin-bottom: 15px; }
+        .brand-title span { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 243, 255, 0.4); }
+        .description { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+        .menu-title { font-size: 16px; color: var(--neon-blue); margin-bottom: 15px; font-weight: 600; text-align: left; }
+
+        .btn-menu {
+            width: 100%; padding: 15px; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer;
+            background: linear-gradient(90deg, #00ffaa, #00e5ff); color: #03141a; border: none; margin-bottom: 15px;
+            transition: 0.3s ease; box-shadow: 0 4px 15px rgba(0, 255, 170, 0.2);
+        }
+        .btn-menu:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 243, 255, 0.4); }
+
+        .btn-level {
+            width: 100%; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer;
+            background: rgba(6, 34, 44, 0.6); color: #fff; border: 1px solid rgba(0, 243, 255, 0.2); margin-bottom: 12px;
+            transition: 0.3s ease; display: flex; align-items: center; justify-content: space-between;
+        }
+        .btn-level:hover { border-color: var(--neon-blue); background: rgba(0, 243, 255, 0.05); }
+
+        .lvl-num { padding: 2px 8px; border-radius: 6px; font-size: 12px; background: rgba(0, 243, 255, 0.2); color: var(--neon-blue); }
+
+        .info-box { background: rgba(3, 20, 26, 0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 15px; text-align: left; margin-bottom: 15px; }
+        .info-box label { color: var(--neon-blue); font-size: 12px; display: block; margin-bottom: 5px; }
+        .info-box .value { font-size: 20px; font-weight: 700; color: #fff; word-break: break-all; }
+
+        .input-field { width: 100%; background: rgba(3, 20, 26, 0.6); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 14px; padding: 15px; color: #fff; font-size: 16px; outline: none; margin-bottom: 15px; text-align: center; }
+        .input-field:focus { border-color: var(--neon-blue); }
+
+        /* Multi-choice options for color mode */
+        .options-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .btn-option { width: 100%; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; background: rgba(6, 34, 44, 0.8); color: #fff; border: 1px solid rgba(0, 243, 255, 0.2); text-align: left; padding-left: 20px; transition: 0.2s ease; }
+        .btn-option:hover { border-color: var(--neon-blue); background: rgba(0, 243, 255, 0.08); }
+
+        .select-field { width: 100%; background: #06222c; border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 14px; padding: 12px; color: #fff; font-size: 15px; margin-bottom: 15px; outline: none; }
+
+        .btn { width: 100%; padding: 14px; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; border: none; margin-bottom: 12px; }
+        .btn-primary { background: linear-gradient(90deg, #00ffaa, #00e5ff); color: #03141a; }
+        .btn-danger { background: rgba(255, 51, 102, 0.1); border: 1px solid rgba(255, 51, 102, 0.2); color: #ff4f7e; }
+
+        .live-feedback { border-radius: 14px; padding: 12px; font-size: 14px; margin-bottom: 15px; text-align: left; border-left: 4px solid transparent; display: none; }
+        .live-feedback.correct { background: rgba(0, 255, 136, 0.1); border-left-color: var(--neon-green); color: var(--neon-green); }
+        .live-feedback.wrong { background: rgba(255, 51, 102, 0.1); border-left-color: var(--neon-red); color: #ff6b8b; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 25px; }
+        .stat-card { background: rgba(3, 20, 26, 0.5); border: 1px solid rgba(255,255,255,0.03); border-radius: 14px; padding: 15px; }
+        .stat-num { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+        .stat-label { color: var(--text-muted); font-size: 13px; }
+
+        .analysis-title { text-align: left; font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+        .error-log-item { background: rgba(255, 51, 102, 0.05); border-left: 4px solid var(--neon-red); border-radius: 12px; padding: 12px 15px; text-align: left; margin-bottom: 10px; font-size: 14px; }
+        .error-log-item strong { font-size: 16px; display: block; margin-bottom: 4px; }
+        .error-log-item .user-ans { color: #ff6b8b; }
+        .error-log-item .correct-ans { color: var(--neon-green); font-weight: 600; }
+
+        .banner-green { background: linear-gradient(135deg, #00ffaa 0%, #00bfff 100%); color: #03141a; font-weight: 700; font-size: 17px; padding: 20px; border-radius: 18px; line-height: 1.4; margin-top: 20px; }
+
+        .admin-list-box { max-height: 180px; overflow-y: auto; text-align: left; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px; margin-top: 15px; }
+        .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+        .admin-item button { background: none; border: none; color: var(--neon-red); cursor: pointer; font-weight: bold; }
+
+        footer { text-align: center; padding: 20px 10px; font-size: 14px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.02); position: relative; }
+        footer .phone-num { margin-top: 5px; color: #fff; font-weight: 600; font-size: 15px; }
+        .admin-link { position: absolute; bottom: 5px; right: 10px; font-size: 10px; color: rgba(255,255,255,0.07); cursor: pointer; text-decoration: none; user-select: none; }
+        .admin-link:hover { color: var(--neon-blue); }
+    </style>
+</head>
+<body>
+
+<div class="phone-container">
+    
+    <div id="main-menu-screen">
+        <header>
+            <div class="top-title">⚛️ RAVNAQ oʻquv markazi</div>
+            <div class="badge-sub">Kimyo Intellektual Maydoni</div>
+        </header>
+        <div class="card">
+            <div class="logo-wrapper">
+                <img class="ravnaq-circle-logo" src="https://i.ibb.co/7JGRXXpv/photo-2026-04-29-16-47-59.jpg" alt="Ravnaq logotipi">
+            </div>
+            <div class="brand-title"><span>RAVNAQ</span><br>oʻquv markazi</div>
+            <p class="description">Kimyo fanidan intellektual oʻyinlar olamiga xush kelibsiz! Rejimni tanlang:</p>
+            
+            <button class="btn-menu" onclick="selectGameMode('names')">1. Modda formulasini topish</button>
+            <button class="btn-menu" onclick="selectGameMode('reactions')" style="background: linear-gradient(90deg, #00ffaa, #ff3366);">2. Reaksiyani davom ettiring</button>
+            <button class="btn-menu" onclick="selectGameMode('colors')" style="background: linear-gradient(90deg, #00e5ff, #9b51e0); color: white;">3. Modda va uning ranglari</button>
+        </div>
+    </div>
+
+    <div id="admin-screen" style="display: none;">
+        <header>
+            <div class="top-title" style="color: var(--neon-green)">⚙️ Admin Panel</div>
+            <div class="badge-sub">Savollar bazasini boshqarish</div>
+        </header>
+        <div class="card" style="text-align: left;">
+            <label style="color: var(--neon-blue); font-size: 12px;">Oʻyin turini tanlang:</label>
+            <select class="select-field" id="admin-game-type" onchange="onAdminGameTypeChange()">
+                <option value="names">Modda formulasini topish</option>
+                <option value="reactions">Reaksiyani davom ettiring</option>
+                <option value="colors">Modda va uning ranglari</option>
+            </select>
+
+            <label id="admin-sub-label" style="color: var(--neon-blue); font-size: 12px;">Darajani tanlang:</label>
+            <select class="select-field" id="admin-level-type" onchange="loadAdminQuestions()">
+            </select>
+
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px;">
+
+            <input type="text" class="input-field" id="admin-input-question" placeholder="Savol" style="text-align: left;">
+            <input type="text" class="input-field" id="admin-input-answer" placeholder="Javob" style="text-align: left;">
+            
+            <button class="btn btn-primary" onclick="addCustomQuestion()">➕ Savolni Qoʻshish</button>
+            
+            <div style="color: var(--neon-blue); font-size: 14px; font-weight: 600; margin-top: 15px;">Mavjud savollar roʻyxati:</div>
+            <div class="admin-list-box" id="admin-questions-list"></div>
+
+            <button class="btn btn-danger" style="margin-top: 20px;" onclick="closeAdmin()">Chiqish ➔</button>
+        </div>
+    </div>
+
+    <div id="level-screen" style="display: none;">
+        <header>
+            <div class="top-title">⚛️ RAVNAQ oʻquv markazi</div>
+            <div class="badge-sub" id="selected-game-title">Oʻyin rejimi</div>
+        </header>
+        <div class="card">
+            <div class="menu-title" id="menu-selection-title">Darajani tanlang:</div>
+            <div id="level-buttons-container">
+            </div>
+            <button class="btn-danger btn" style="margin-top: 15px;" onclick="backToMenu()">➔ Orqaga</button>
+        </div>
+    </div>
+
+    <div id="game-screen" style="display: none;">
+        <header>
+            <div class="top-title">⚛️ RAVNAQ oʻquv markazi</div>
+            <div id="game-badge" class="badge-sub">Oʻyin ketmoqda...</div>
+        </header>
+        <div class="card">
+            <div class="info-box">
+                <label id="question-label">Topshiriq:</label>
+                <div class="value" id="question-display">Yuklanmoqda...</div>
+            </div>
+            
+            <!-- Input text field for typing mode -->
+            <input type="text" class="input-field" id="user-input" placeholder="Javobni kiriting..." autocomplete="off">
+            
+            <!-- Multi choice options container for color mode -->
+            <div class="options-container" id="options-box" style="display: none;"></div>
+
+            <div class="live-feedback" id="feedback-alert"></div>
+            <button class="btn btn-primary" id="btn-next-action" onclick="checkAnswer()">Javobni tekshirish</button>
+            <button class="btn btn-danger" onclick="finishTest()">Testni tugatish</button>
+        </div>
+    </div>
+
+    <div id="result-screen" style="display: none;">
+        <header>
+            <div class="top-title" style="color: var(--neon-green);">Natijalar</div>
+        </header>
+        <div class="card">
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-num" id="stat-total" style="color: #fff;">0</div><div class="stat-label">Ishlangan</div></div>
+                <div class="stat-card"><div class="stat-num" id="stat-correct" style="color: var(--neon-green);">0</div><div class="stat-label">Toʻgʻri</div></div>
+                <div class="stat-card"><div class="stat-num" id="stat-wrong" style="color: var(--neon-red);">0</div><div class="stat-label">Xato</div></div>
+                <div class="stat-card"><div class="stat-num" id="stat-percent" style="color: var(--neon-blue);">0%</div><div class="stat-label">Foiz</div></div>
+            </div>
+            <div class="analysis-title">Xatolar tahlili</div>
+            <div id="error-analysis-container"></div>
+            <div class="banner-green">RAVNAQ oʻquv markazi bilan kimyoni oson oʻrganing</div>
+            <button class="btn btn-primary" style="margin-top: 20px;" onclick="backToMenu()">Bosh sahifaga qaytish ↻</button>
+        </div>
+    </div>
+
+    <footer>
+        <div>RAVNAQ oʻquv markazi</div>
+        <div class="phone-num">📞 +998 88 507 66 77 </div>
+        <div class="admin-link" onclick="askAdminPassword()">Boshqaruv</div>
+    </footer>
+</div>
+
+<script>
+    // 🔒 YANGILANGAN TO'LIQ SAVOLLAR BAZASI (7, 8, 9, 10, 11-sinflar kesimida va Ranglar)
+    const defaultDatabase = {
+        names: {
+            1: [ {savol:"Suv", javob:"H2O"}, {savol:"Osh tuzi", javob:"NaCl"}, {savol:"Karbonat angidrid", javob:"CO2"} ],
+            2: [ {savol:"Kaliy permanganat", javob:"KMnO4"}, {savol:"Sirka kislota", javob:"CH3COOH"} ],
+            3: [ {savol:"Bertole tuzi", javob:"KClO3"}, {savol:"Mis kuporosi", javob:"CuSO4*5H2O"} ]
+        },
+        reactions: {
+            7: [
+                {savol:"Mg + O2 =", javob:"MgO"}, {savol:"HgO =", javob:"Hg + O2"}, {savol:"Fe + Cl2 =", javob:"FeCl3"},
+                {savol:"Na + Cl2 =", javob:"NaCl"}, {savol:"2H2 + O2 =", javob:"2H2O"}, {savol:"CaO + CO2 =", javob:"CaCO3"},
+                {savol:"2H2O =", javob:"2H2 + O2"}, {savol:"CaCO3 =", javob:"CaO + CO2"}, {savol:"Zn + 2HCl =", javob:"ZnCl2 + H2"},
+                {savol:"Fe + CuSO4 =", javob:"FeSO4 + Cu"}, {savol:"NaOH + HCl =", javob:"NaCl + H2O"}, {savol:"BaCl2 + Na2SO4 =", javob:"BaSO4 + 2NaCl"},
+                {savol:"Fe + S =", javob:"FeS + 96 kJ"}, {savol:"S + O2 =", javob:"SO2 + 297 kJ"}, {savol:"H2 + 1/2 O2 =", javob:"H2O + 285,83 kJ"},
+                {savol:"C + O2 =", javob:"CO2 + 393 kJ"}, {savol:"N2 + O2 =", javob:"2NO - 181 kJ"}, {savol:"3O2 =", javob:"2O3 - 289 kJ"},
+                {savol:"P + O2 =", javob:"P2O5"}, {savol:"N2 + H2 =", javob:"NH3"}, {savol:"Na2SiO3 + H2SO4 =", javob:"Na2SO4 + H2SiO3"},
+                {savol:"H2O2 =", javob:"H2O + O2"}, {savol:"Al + O2 =", javob:"Al2O3"}, {savol:"2H2S + O2 =", javob:"2S + 2H2O"},
+                {savol:"Fe3O4 + 4H2 =", javob:"3Fe + 4H2O"}, {savol:"2KMnO4 =", javob:"K2MnO4 + MnO2 + O2"}, {savol:"2KClO3 =", javob:"2KCl + 3O2"},
+                {savol:"2Cu + O2 =", javob:"2CuO"}, {savol:"2NaNO3 =", javob:"2NaNO2 + O2"}, {savol:"4P + 5O2 =", javob:"2P2O5"},
+                {savol:"Si + O2 =", javob:"SiO2"}, {savol:"CH4 + 2O2 =", javob:"CO2 + 2H2O"}, {savol:"2H2S + 3O2 =", javob:"2SO2 + 2H2O"},
+                {savol:"2ZnS + 3O2 =", javob:"2ZnO + 2SO2"}, {savol:"SiH4 + 2O2 =", javob:"SiO2 + 2H2O"}, {savol:"2Mg + O2 =", javob:"2MgO"},
+                {savol:"2Ca + O2 =", javob:"2CaO"}, {savol:"4Al + 3O2 =", javob:"2Al2O3"}, {savol:"2Na + O2 =", javob:"Na2O2"},
+                {savol:"3Fe + 2O2 =", javob:"Fe3O4"}, {savol:"6CO2 + 6H2O =", javob:"C6H12O6 + 6O2"}, {savol:"C6H12O6 + 6O2 =", javob:"6H2O + 6CO2"},
+                {savol:"CH4 + H2O =", javob:"CO + 3H2 + 206 kJ"}, {savol:"CO + H2O =", javob:"CO2 + H2 - 40 kJ"}, {savol:"H2 + F2 =", javob:"2HF"},
+                {savol:"H2 + Cl2 =", javob:"2HCl"}, {savol:"N2 + 3H2 =", javob:"2NH3"}, {savol:"CuO + H2 =", javob:"Cu + H2O"},
+                {savol:"2Na + H2 =", javob:"2NaH"}, {savol:"FeO + H2 =", javob:"Fe + H2O"}, {savol:"2Na + 2H2O =", javob:"2NaOH + H2"},
+                {savol:"Ca + 2H2O =", javob:"Ca(OH)2 + H2"}, {savol:"CaO + H2O =", javob:"Ca(OH)2"}, {savol:"SO3 + H2O =", javob:"H2SO4"},
+                {savol:"CuSO4 + 5H2O =", javob:"CuSO4*5H2O"}, {savol:"3Fe + 4H2O =", javob:"Fe3O4 + 4H2"}, {savol:"Cu(OH)2 =", javob:"CuO + H2O"},
+                {savol:"H2SiO3 =", javob:"H2O + SiO2"}, {savol:"Cu2(OH)2CO3 =", javob:"2CuO + CO2 + H2O"}, {savol:"2HClO4 + P2O5 =", javob:"2HPO3 + Cl2O7"},
+                {savol:"Na2CO3 + SiO2 =", javob:"Na2SiO3 + CO2"}, {savol:"Na2O + H2O =", javob:"2NaOH"}, {savol:"SO2 + H2O =", javob:"H2SO3"},
+                {savol:"P2O5 + 3H2O =", javob:"2H3PO4"}, {savol:"CaO + 2HCl =", javob:"CaCl2 + H2O"}, {savol:"BaO + 2HNO3 =", javob:"Ba(NO3)2 + H2O"},
+                {savol:"SO2 + 2NaOH =", javob:"Na2SO3 + H2O"}, {savol:"P2O5 + 3Ca(OH)2 =", javob:"Ca3(PO4)2 + 3H2O"}, {savol:"MgO + SO2 =", javob:"MgSO3"},
+                {savol:"BaO + CO2 =", javob:"BaCO3"}, {savol:"Ca(OH)2 + CO2 =", javob:"CaCO3 + H2O"}, {savol:"NiCl2 + 2NaOH =", javob:"Ni(OH)2 + 2NaCl"},
+                {savol:"CuCl2 + NaOH =", javob:"Cu(OH)Cl + NaCl"}, {savol:"NiSO4 + 2NaOH =", javob:"Ni(OH)2 + Na2SO4"}, {savol:"FeCl3 + 3KOH =", javob:"Fe(OH)3 + 3KCl"},
+                {savol:"Mg(OH)2 + HCl =", javob:"Mg(OH)Cl + H2O"}, {savol:"Ca(OH)2 + H3PO4 =", javob:"CaHPO4 + 2H2O"}, {savol:"H2 + S =", javob:"H2S"},
+                {savol:"Na2SO3 + H2SO4 =", javob:"H2SO3 + Na2SO4"}, {savol:"FeS + 2HCl =", javob:"FeCl2 + H2S"}, {savol:"Na2SiO3 + 2HCl =", javob:"H2SiO3 + 2NaCl"},
+                {savol:"H2SO4 + 2NaOH =", javob:"Na2SO4 + 2H2O"}, {savol:"HCl + Mg(OH)2 =", javob:"Mg(OH)Cl + H2O"}, {savol:"H3PO4 + KOH =", javob:"KH2PO4 + H2O"},
+                {savol:"2HNO3 + CaO =", javob:"Ca(NO3)2 + H2O"}, {savol:"Zn + H2SO4 =", javob:"ZnSO4 + H2"}, {savol:"Cu + 4HNO3 (kons.) =", javob:"Cu(NO3)2 + 2NO2 + 2H2O"},
+                {savol:"BaCl2 + H2SO4 =", javob:"BaSO4 + 2HCl"}, {savol:"NaCl + H2SO4 (kons.) =", javob:"NaHSO4 + HCl"}, {savol:"CaCO3 + H2CO3 =", javob:"Ca(HCO3)2"},
+                {savol:"Cu + Hg(NO3)2 =", javob:"Cu(NO3)2 + Hg"}, {savol:"Zn + 2NaOH =", javob:"Na2ZnO2 + H2"}, {savol:"MgO + SiO2 =", javob:"MgSiO3"},
+                {savol:"2KOH + H2SO4 =", javob:"K2SO4 + 2H2O"}, {savol:"KOH + H2SO4 =", javob:"KHSO4 + H2O"}, {savol:"Bi(OH)3 + HCl =", javob:"Bi(OH)2Cl + H2O"},
+                {savol:"NaOH + CO2 =", javob:"NaHCO3"}, {savol:"2NaOH + CO2 =", javob:"Na2CO3 + H2O"}, {savol:"CuCl2 + 2NaOH =", javob:"Cu(OH)2 + 2NaCl"},
+                {savol:"2NaOH + Cl2 (sovuq) =", javob:"NaCl + NaClO + H2O"}, {savol:"2NaOH + Cl2 (issiq) =", javob:"NaCl + NaClO3 + H2O"},
+                {savol:"CaCO3 + CO2 + H2O =", javob:"Ca(HCO3)2"}, {savol:"Ba(NO3)2 + Na2SO4 =", javob:"BaSO4 + 2NaNO3"}, {savol:"2KJ + Cl2 =", javob:"2KCl + J2"},
+                {savol:"MgCl2 + 2NaOH =", javob:"Mg(OH)2 + 2NaCl"}, {savol:"MgCl2 + NaOH =", javob:"Mg(OH)Cl + NaCl"}, {savol:"Ba(NO3)2 + H2SO4 =", javob:"BaSO4 + 2HNO3"},
+                {savol:"Ca3(PO4)2 + 2H2SO4 =", javob:"Ca(H2PO4)2 + 2CaSO4"}, {savol:"Na2S + H2S =", javob:"2NaHS"}, {savol:"AgNO3 + NaJ =", javob:"NaNO3 + AgJ"},
+                {savol:"2HgO =", javob:"2Hg + O2"}, {savol:"Hg(NO3)2 + Cu =", javob:"Cu(NO3)2 + Hg"}, {savol:"H2CO3 =", javob:"CO2 + H2O"},
+                {savol:"CaO + SiO2 =", javob:"CaSiO3"}, {savol:"Fe(OH)2 =", javob:"FeO + H2O"}, {savol:"Cu(OH)2 + 2HCl =", javob:"CuCl2 + 2H2O"},
+                {savol:"FeCl2 + 2KOH =", javob:"Fe(OH)2 + 2KCl"}, {savol:"HNO3 + NaOH =", javob:"NaNO3 + H2O"}, {savol:"K2S + 2HCl =", javob:"H2S + 2KCl"}
+            ],
+            8: [
+                {savol:"Ca + 2H2O =", javob:"Ca(OH)2 + H2"}, {savol:"CaO + H2O =", javob:"Ca(OH)2"}, {savol:"Zn + 2HCl =", javob:"ZnCl2 + H2"},
+                {savol:"NaOH + H2SO4 =", javob:"NaHSO4 + H2O"}, {savol:"Zn(OH)2 + 2HCl =", javob:"ZnCl2 + 2H2O"}, {savol:"Zn(OH)2 + 2NaOH =", javob:"Na2ZnO2 + 2H2O"},
+                {savol:"2Na + O2 =", javob:"Na2O2"}, {savol:"2Na + 2H2O =", javob:"2NaOH + H2"}, {savol:"2K + O2 =", javob:"K2O2"},
+                {savol:"2K + 2H2O =", javob:"2KOH + H2"}, {savol:"H2 + Cl2 =", javob:"2HCl"}, {savol:"Na + Cl2 =", javob:"2NaCl"},
+                {savol:"CuO + H2SO4 =", javob:"CuSO4 + H2O"}, {savol:"Mg + O2 =", javob:"MgO"}, {savol:"S + O2 =", javob:"SO2"},
+                {savol:"H2S + O2 (kam) =", javob:"S + H2O"}, {savol:"H2S + O2 (ko'p) =", javob:"SO2 + H2O"}, {savol:"P + O2 =", javob:"P2O5"},
+                {savol:"CuO + H2 =", javob:"Cu + H2O"}, {savol:"Fe2O3 + H2 =", javob:"Fe + H2O"}, {savol:"KCl + AgNO3 =", javob:"KNO3 + AgCl"},
+                {savol:"FeO + CO =", javob:"Fe + CO2"}, {savol:"2Li + H2 =", javob:"2LiH"}, {savol:"HgO + H2 =", javob:"Hg + H2O"},
+                {savol:"2Al + 6HCl =", javob:"2AlCl3 + 3H2"}, {savol:"8Al + 30HNO3 =", javob:"8Al(NO3)3 + 3N2O + 15H2O"}, {savol:"KClO3 =", javob:"KCl + O2"},
+                {savol:"H2SO3 + K2Cr2O7 + H2SO4 =", javob:"K2SO4 + Cr2(SO4)3 + H2O"}, {savol:"2KMnO4 =", javob:"K2MnO4 + MnO2 + O2"},
+                {savol:"Fe + Cl2 =", javob:"FeCl3"}, {savol:"Cu + HNO3 (suyul.) =", javob:"Cu(NO3)2 + NO + H2O"}, {savol:"Al + O2 =", javob:"Al2O3"},
+                {savol:"Na + S =", javob:"Na2S"}, {savol:"NO2 + H2O =", javob:"HNO3 + NO"}, {savol:"HCl + MnO2 =", javob:"MnCl2 + Cl2 + H2O"},
+                {savol:"FeS2 + O2 =", javob:"Fe2O3 + SO2"}, {savol:"FeSO4 + KMnO4 + H2SO4 =", javob:"Fe2(SO4)3 + K2SO4 + MnSO4 + H2O"},
+                {savol:"2Hg + O2 =", javob:"2HgO"}, {savol:"N2 + 3H2 =", javob:"2NH3"}, {savol:"Ca + Cl2 =", javob:"CaCl2"},
+                {savol:"Zn + HNO3 =", javob:"Zn(NO3)2 + NO2 + H2O"}, {savol:"KI + Cl2 =", javob:"2KCl + I2"}, {savol:"2KI + Br2 =", javob:"2KBr + I2"},
+                {savol:"KMnO4 + H2SO4 + NaCl =", javob:"K2SO4 + MnSO4 + Na2SO4 + Cl2 + H2O"}, {savol:"H2O + 2F2 =", javob:"4HF + O2"},
+                {savol:"Cl2 + H2O =", javob:"HCl + HClO"}, {savol:"3Cl2 + 6KOH (sovuq) =", javob:"KClO + 5KCl + 3H2O"}, {savol:"3Cl2 + 6KOH (issiq) =", javob:"KClO3 + 5KCl + 3H2O"},
+                {savol:"NaCl + H2SO4 =", javob:"NaHSO4 + HCl"}, {savol:"2NaCl + H2SO4 =", javob:"Na2SO4 + 2HCl"}, {savol:"2NaCl + 2H2O (el-z) =", javob:"2NaOH + Cl2 + H2"},
+                {savol:"4HCl + MnO2 =", javob:"MnCl2 + Cl2 + 2H2O"}, {savol:"Fe + 2HCl =", javob:"FeCl2 + H2"}, {savol:"ZnO + 2HCl =", javob:"ZnCl2 + H2O"},
+                {savol:"Cu(OH)2 + 2HCl =", javob:"CuCl2 + 2H2O"}, {savol:"CaCO3 + 2HCl =", javob:"CaCl2 + H2CO3"}, {savol:"AgNO3 + HCl =", javob:"AgCl + HNO3"},
+                {savol:"Cl2 + 2KOH =", javob:"KCl + KClO + H2O"}, {savol:"2Ca(OH)2 + 2Cl2 =", javob:"Ca(OCl)2 + CaCl2 + H2O"}, {savol:"6KOH + 3Cl2 =", javob:"KClO3 + 5KCl + 3H2O"},
+                {savol:"Xe + F2 =", javob:"XeF2"}, {savol:"SiO2 + 2F2 =", javob:"SiF4 + O2"}, {savol:"NaCl + 2KMnO4 + 8H2SO4 =", javob:"K2SO4 + 5Na2SO4 + 2MnSO4 + 5Cl2 + 8H2O"},
+                {savol:"Ca(OH)2 + 2HCl =", javob:"2CaCl2 + 2H2O"}, {savol:"H2 + S =", javob:"H2S"}, {savol:"Al + S =", javob:"Al2S3"},
+                {savol:"Zn + S =", javob:"ZnS"}, {savol:"Fe + S =", javob:"FeS"}, {savol:"S + Cl2 =", javob:"SCl2"},
+                {savol:"S + F2 =", javob:"SF6"}, {savol:"FeS + 2HCl =", javob:"FeCl2 + H2S"}, {savol:"FeCl3 + H2S =", javob:"FeCl2 + HCl + S"},
+                {savol:"H2S + Cl2 =", javob:"HCl + S"}, {savol:"H2S + H2SO3 =", javob:"S + H2O"}, {savol:"KOH + H2S =", javob:"K2S + 2H2O"},
+                {savol:"CaO + H2S =", javob:"CaS + H2O"}, {savol:"CuCl2 + H2S =", javob:"CuS + 2HCl"}, {savol:"H2S + Pb(NO3)2 =", javob:"PbS + 2HNO3"},
+                {savol:"Na2S + Pb(NO3)2 =", javob:"PbS + 2NaNO3"}, {savol:"Na2SO3 + H2SO4 =", javob:"Na2SO4 + H2O + SO2"}, {savol:"2H2SO4(kons) + Cu =", javob:"CuSO4 + SO2 + 2H2O"},
+                {savol:"4FeS2 + 11O2 =", javob:"2Fe2O3 + 8SO2"}, {savol:"2ZnS + 3O2 =", javob:"2ZnO + 2SO2"}, {savol:"2SO2 + O2 =", javob:"2SO3"},
+                {savol:"2H2S + SO2 =", javob:"2H2O + 3S"}, {savol:"SO3 + H2O =", javob:"H2SO4"}, {savol:"2Al + 3H2SO4 =", javob:"Al2(SO4)3 + 3H2"},
+                {savol:"2NaOH + H2SO4 =", javob:"Na2SO4 + 2H2O"}, {savol:"Mg(OH)2 + H2SO4 =", javob:"MgSO4 + 2H2O"}, {savol:"3H2SO4 + Ca3(PO4)2 =", javob:"3CaSO4 + 2H3PO4"},
+                {savol:"H2SO4 + C =", javob:"CO2 + SO2 + H2O"}, {savol:"H2SO4 + BaCl2 =", javob:"BaSO4 + 2HCl"}, {savol:"Na2SO4 + BaCl2 =", javob:"BaSO4 + 2NaCl"},
+                {savol:"NaCl + AgNO3 =", javob:"AgCl + NaNO3"}, {savol:"NaOH + HNO3 =", javob:"NaNO3 + H2O"}, {savol:"2NO + O2 =", javob:"2NO2"},
+                {savol:"CO2 + C =", javob:"2CO"}, {savol:"Cu2S + 2O2 =", javob:"2CuO + SO2"}, {savol:"3CuO + 2NH3 =", javob:"3Cu + 3H2O + N2"},
+                {savol:"6Li + N2 =", javob:"2Li3N"}, {savol:"3Mg + N2 =", javob:"Mg3N2"}, {savol:"NH4Cl + NaOH =", javob:"NaCl + H2O + NH3"},
+                {savol:"2NH4Cl + Ca(OH)2 =", javob:"CaCl2 + 2H2O + 2NH3"}, {savol:"NH3 + HCl =", javob:"NH4Cl"}, {savol:"NH3 + H2SO4 =", javob:"NH4HSO4"},
+                {savol:"2NH3 + H2SO4 =", javob:"(NH4)2SO4"}, {savol:"4NH3 + 3O2 (kat-siz) =", javob:"2N2 + 6H2O"}, {savol:"4NH3 + 5O2 (kat-li) =", javob:"4NO + 6H2O"},
+                {savol:"(NH4)2CO3 =", javob:"2NH3 + H2O + CO2"}, {savol:"(NH4)2SO4 + 2NaOH =", javob:"Na2SO4 + 2NH3 + 2H2O"}, {savol:"3Cu + 8HNO3(suyul.) =", javob:"3Cu(NO3)2 + 2NO + 4H2O"},
+                {savol:"Cu + 4HNO3(kons.) =", javob:"Cu(NO3)2 + 2NO2 + 2H2O"}, {savol:"4NO2 + 2H2O + O2 =", javob:"4HNO3"}, {savol:"HNO3 =", javob:"4NO2 + O2 + 2H2O"},
+                {savol:"CuO + 2HNO3 =", javob:"Cu(NO3)2 + H2O"}, {savol:"Fe(OH)3 + 3HNO3 =", javob:"Fe(NO3)3 + 3H2O"}, {savol:"Na2CO3 + 2HNO3 =", javob:"2NaNO3 + H2O + CO2"},
+                {savol:"Pb + 4HNO3 (kons.) =", javob:"Pb(NO3)2 + 2NO2 + 2H2O"}, {savol:"4Fe + 10HNO3 (juda suyl.) =", javob:"4Fe(NO3)2 + NH4NO3 + 3H2O"}, {savol:"Au + HNO3 + 3HCl =", javob:"AuCl3 + NO + 2H2O"},
+                {savol:"3Pt + 4HNO3 + 12HCl =", javob:"3PtCl4 + 4NO + 8H2O"}, {savol:"NH3 + HNO3 =", javob:"NH4NO3"}, {savol:"2KNO3 =", javob:"2KNO2 + O2"},
+                {savol:"2Cu(NO3)2 =", javob:"2CuO + 4NO2 + O2"}, {savol:"2AgNO3 =", javob:"2Ag + 2NO2 + O2"}, {savol:"NH4NO3 =", javob:"N2O + 2H2O"},
+                {savol:"NH4NO2 =", javob:"N2 + 2H2O"}, {savol:"Ca3(PO4)2 + 5C + 3SiO2 =", javob:"3CaSiO3 + 2P + 5CO"}, {savol:"2P + 3S =", javob:"P2S3"},
+                {savol:"2P + 3Cl2 =", javob:"2PCl3"}, {savol:"P + 3Ca =", javob:"Ca3P2"}, {savol:"2P + 3H2 =", javob:"2PH3"},
+                {savol:"6P + 5KClO3 =", javob:"5KCl + 3P2O5"}, {savol:"P2O5 + H2O (sovuq) =", javob:"2HPO3"}, {savol:"P2O5 + 3H2O (issiq) =", javob:"2H3PO4"},
+                {savol:"HPO3 + H2O =", javob:"H3PO4"}, {savol:"2H3PO4 =", javob:"H4P2O7 + H2O"}, {savol:"6Na + 2H3PO4 =", javob:"2Na3PO4 + 3H2"},
+                {savol:"CaO + 2H3PO4 =", javob:"Ca3(PO4)2 + 3H2O"}, {savol:"NaOH + H3PO4 =", javob:"Na3PO4 + 3H2O"}, {savol:"3NH3 + H3PO4 =", javob:"(NH4)3PO4"},
+                {savol:"3Na2CO3 + 2H3PO4 =", javob:"2Na3PO4 + 3CO2 + 3H2O"}, {savol:"AgNO3 + H3PO4 =", javob:"Ag3PO4 + 3HNO3"}, {savol:"Ca3(PO4)2 + 4HNO3 =", javob:"Ca(H2PO4)2 + 2Ca(NO3)2"},
+                {savol:"NaNH4HPO4 =", javob:"NaPO3 + NH3 + H2O"}, {savol:"2NaPO3 + SiO2 =", javob:"Na2SiO3 + P2O5"}, {savol:"2P2O5 + 10C =", javob:"P4 + 10CO"},
+                {savol:"P + KClO3 =", javob:"P2O5 + KCl"}, {savol:"P + HNO3(kons.) =", javob:"H3PO4 + NO2 + H2O"}, {savol:"P + H2SO4(kons.) =", javob:"H3PO4 + SO2 + H2O"},
+                {savol:"P2O5 + 6KOH =", javob:"2K3PO4 + H2O"}, {savol:"Ca3(PO4)2 + 4H3PO4 =", javob:"3Ca(H2PO4)2"}, {savol:"CaOH2 + H3PO4 =", javob:"CaHPO4"},
+                {savol:"CaCO3 + H3PO4 =", javob:"CaHPO4 + H2O + CO2"}
+            ],
+              9: [
+
+                {savol:"BaCl2 + Na2SO4 =", javob:"2NaCl + BaSO4"}, {savol:"HCl + KOH =", javob:"KCl + H2O"}, {savol:"Na2S + 2HCl =", javob:"2NaCl + H2S"},
+
+                {savol:"Al2S3 + 6H2O =", javob:"2Al(OH)3 + 3H2S"}, {savol:"Cu(NO3)2 + 2KOH =", javob:"Cu(OH)2 + 2KNO3"}, {savol:"2FeCl3 + 3K2CO3 + H2O =", javob:"2Fe(OH)3 + 3CO2 + 6KCl"},
+
+                {savol:"3Na2CO3 + Al2(SO4)3 + 3H2O =", javob:"2Al(OH)3 + 3CO2 + 3Na2SO4"}, {savol:"6CO2 + 6H2O =", javob:"C6H12O6 + 6O2"}, {savol:"2F2 + C =", javob:"CF4"},
+
+                {savol:"C + 2S =", javob:"CS2"}, {savol:"2C + N2 =", javob:"(CN)2"}, {savol:"Ca + 2C =", javob:"CaC2"},
+
+                {savol:"2Al2O3 + 9C =", javob:"Al4C3 + 6CO"}, {savol:"CaO + 3C =", javob:"CaC2 + CO"}, {savol:"CaC2 + 2H2O =", javob:"Ca(OH)2 + C2H2"},
+
+                {savol:"Al4C3 + 12HCl =", javob:"4AlCl3 + 3CH4"}, {savol:"C + 2H2SO4 =", javob:"CO2 + 2SO2 + 2H2O"}, {savol:"SiO2 + 3C =", javob:"SiC + 2CO"},
+
+                {savol:"2CO + O2 =", javob:"2CO2 + 572 kJ"}, {savol:"2CO + SnO2 =", javob:"2CO2 + Sn"}, {savol:"CO + Cl2 =", javob:"COCl2"},
+
+                {savol:"CaCO3 + 2HCl =", javob:"CaCl2 + CO2 + H2O"}, {savol:"CO2 + H2O =", javob:"H2CO3"}, {savol:"2NaOH + CO2 =", javob:"Na2CO3 + H2O"},
+
+                {savol:"2Mg + CO2 =", javob:"2MgO + C"}, {savol:"KOH + CO2 =", javob:"K2CO3 + H2O"}, {savol:"MgO + CO2 =", javob:"MgCO3"},
+
+                {savol:"H2CO3 + 2NaOH =", javob:"Na2CO3 + 2H2O"}, {savol:"H2CO3 + NaOH =", javob:"NaHCO3 + H2O"}, {savol:"Ca(HCO3)2 + 2HCl =", javob:"CaCl2 + 2CO2 + 2H2O"},
+
+                {savol:"2KHCO3 =", javob:"K2CO3 + CO2 + H2O"}, {savol:"Na2CO3 + CO2 + H2O =", javob:"2NaHCO3"}, {savol:"2Pb(NO3)2 =", javob:"2PbO + 4NO2 + O2"},
+
+                {savol:"SiO2 + C =", javob:"Si + CO"}, {savol:"SiO2 + Mg =", javob:"MgO + Si"}, {savol:"Si + 2Cl2 =", javob:"SiCl4"},
+
+                {savol:"Si + 2Br2 =", javob:"SiBr4"}, {savol:"Si + 2S =", javob:"SiS2"}, {savol:"SiCl4 + 2H2O =", javob:"SiO2 + 4HCl"},
+
+                {savol:"SiS2 + 2H2O =", javob:"SiO2 + 2H2S"}, {savol:"Si + C =", javob:"SiC"}, {savol:"Si + 2Mg =", javob:"Mg2Si"},
+
+                {savol:"Mg2Si + 4HCl =", javob:"2MgCl2 + SiH4"}, {savol:"SiH4 + 2O2 =", javob:"SiO2 + 2H2O"}, {savol:"Si + 2NaOH + H2O =", javob:"Na2SiO3 + 2H2"},
+
+                {savol:"SiO2 + Na2CO3 =", javob:"CO2 + Na2SiO3"}, {savol:"SiO2 + CaO =", javob:"CaSiO3"}, {savol:"SiO2 + 4HF =", javob:"2H2O + SiF4"},
+
+                {savol:"Na2SiO3 + H2O + CO2 =", javob:"Na2CO3 + H2SiO3"}, {savol:"2NaOH + H2SiO3 =", javob:"Na2SiO3 + 2H2O"}, {savol:"CaCO3 + SiO2 =", javob:"CaSiO3 + CO2"},
+
+                {savol:"ZnO + C =", javob:"CO + Zn"}, {savol:"Cr2O3 + 2Al =", javob:"Al2O3 + 2Cr"}, {savol:"WO3 + 3H2 =", javob:"W + 3H2O"},
+
+                {savol:"Zn + Pb(NO3)2 =", javob:"Pb + Zn(NO3)2"}, {savol:"4Fe + 6H2O + 3O2 =", javob:"4Fe(OH)3"}, {savol:"2H3PO4 + Fe =", javob:"Fe(H2PO4)2 + H2"},
+
+                {savol:"Fe(H2PO4)2 + Fe =", javob:"2FeHPO4 + H2"}, {savol:"2FeHPO4 + Fe =", javob:"Fe3(PO4)2 + H2"}, {savol:"K + O2 =", javob:"KO2"},
+
+                {savol:"Na2O2 + 2Na =", javob:"2Na2O"}, {savol:"4Li + O2 =", javob:"2Li2O"}, {savol:"2K + H2 =", javob:"2KH"},
+
+                {savol:"2NaCl + 2H2O (elektroliz) =", javob:"2NaOH + Cl2 + H2"}, {savol:"2Na2O2 + 2CO =", javob:"2Na2CO3 + O2"}, {savol:"Na2O2 + H2SO4 =", javob:"Na2SO4 + H2O2"},
+
+                {savol:"Na2SO4 + Na2CO3 =", javob:"Na2S + 2CO2"}, {savol:"Na2S + CaCO3 =", javob:"Na2CO3 + CaS"}, {savol:"NH3 + CO2 + H2O =", javob:"NH4HCO3"},
+
+                {savol:"NH4HCO3 + NaCl =", javob:"NaHCO3 + NH4Cl"}, {savol:"2NaHCO3 =", javob:"Na2CO3 + CO2 + H2O"}, {savol:"3Mg + N2 =", javob:"Mg3N2"},
+
+                {savol:"Mg + Br2 =", javob:"MgBr2"}, {savol:"Mg + H2O =", javob:"MgO + H2"}, {savol:"3Ca + N2 =", javob:"Ca3N2"},
+
+                {savol:"3Ca + 2P =", javob:"Ca3P2"}, {savol:"Ca + S =", javob:"CaS"}, {savol:"Ca + 2C =", javob:"CaC2"},
+
+                {savol:"Ca + H2 =", javob:"CaH2"}, {savol:"Ca + 2HCl =", javob:"CaCl2 + H2"}, {savol:"Ca(HCO3)2 + Ca(OH)2 =", javob:"2CaCO3 + 2H2O"},
+
+                {savol:"Ca(HCO3)2 + 2NaOH =", javob:"CaCO3 + Na2CO3 + 2H2O"}, {savol:"Mg(HCO3)2 + 2NaOH =", javob:"MgCO3 + Na2CO3 + 2H2O"}, {savol:"Ca(HCO3)2 + Na2CO3 =", javob:"CaCO3 + 2NaHCO3"},
+
+                {savol:"Mg(HCO3)2 + Na2CO3 =", javob:"MgCO3 + 2NaHCO3"}, {savol:"CaSO4 + Na2CO3 =", javob:"CaCO3 + Na2SO4"}, {savol:"3MgSO4 + 2Na3PO4 =", javob:"Mg3(PO4)2 + 3Na2SO4"},
+
+                {savol:"2Al + 6H2O =", javob:"2Al(OH)3 + 3H2"}, {savol:"Al + 4HNO3 (suyul.) =", javob:"Al(NO3)3 + NO + 2H2O"}, {savol:"8Al + 30HNO3 (suyul.) =", javob:"8Al(NO3)3 + 3NH4NO3 + 9H2O"},
+
+                {savol:"2Al + 2NaOH + 6H2O =", javob:"2Na[Al(OH)4] + 3H2"}, {savol:"2Al + N2 =", javob:"AlN"}, {savol:"Al + P =", javob:"AlP"},
+
+                {savol:"4Al + 3C =", javob:"Al4C3"}, {savol:"8Al + 3Fe3O4 =", javob:"4Al2O3 + 9Fe"}, {savol:"AlCl3 + 3K =", javob:"3KCl + Al"},
+
+                {savol:"Na[Al(OH)4] + 4HCl =", javob:"NaCl + AlCl3 + 4H2O"}, {savol:"AlCl3 + 3NaOH =", javob:"Al(OH)3 + 3NaCl"}, {savol:"Al2O3 + 2NaOH =", javob:"2NaAlO2 + H2O"},
+
+                {savol:"2NaAlO2 + 4H2SO4 =", javob:"Na2SO4 + Al2(SO4)3 + 4H2O"}, {savol:"2Al + 2NaOH + 2H2O =", javob:"2NaAlO2 + 3H2"}, {savol:"Al2O3 + 6HCl =", javob:"2AlCl3 + 3H2O"},
+
+                {savol:"Al2O3 + 2NaOH + 3H2O =", javob:"2Na[Al(OH)4]"}, {savol:"Al(OH)3 + 3H2SO4 =", javob:"Al2(SO4)3 + 6H2O"}, {savol:"Al(OH)3 + 2KOH =", javob:"KAlO2 + 2H2O"},
+
+                {savol:"2Cu2S + 3O2 =", javob:"2Cu2O + 2SO2"}, {savol:"2Cu2O + Cu2S =", javob:"6Cu + SO2"}, {savol:"Cu + O2 + H2O + CO2 =", javob:"CuCO3.Cu(OH)2"},
+
+                {savol:"Cu + 2H2SO4 =", javob:"CuSO4 + SO2 + 2H2O"}, {savol:"Ag + 2HNO3 =", javob:"AgNO3 + NO2 + H2O"}, {savol:"4Au + 8KCN + O2 + 2H2O =", javob:"4K[Au(CN)2] + 4KOH"},
+
+                {savol:"2K[Au(CN)2] + Zn =", javob:"K2[Zn(CN)4] + 2Au"}, {savol:"AuCl3 + HCl =", javob:"H[AuCl4]"}, {savol:"Au + HNO3 + 4HCl =", javob:"H[AuCl4] + NO + 2H2O"},
+
+                {savol:"2Au + 3Cl2 =", javob:"2AuCl"}, {savol:"Zn + 2H2SO4 (kons.) =", javob:"ZnSO4 + SO2 + 2H2O"}, {savol:"Zn + 2H2SO4 (suyul.) =", javob:"ZnSO4 + S + 2H2O"},
+
+                {savol:"Zn + 2H2SO4 (juda suyl.) =", javob:"ZnSO4 + H2S + 2H2O"}, {savol:"3Zn + 8HNO3 (kons.) =", javob:"3Zn(NO3)2 + 2NO + 4H2O"}, {savol:"4Zn + 10HNO3 (suyul.) =", javob:"4Zn(NO3)2 + N2O + 5H2O"},
+
+                {savol:"4Zn + 10HNO3 (juda suyl.) =", javob:"4Zn(NO3)2 + NH4NO3 + 3H2O"}, {savol:"Zn + 2NaOH + 2H2O =", javob:"Na2[Zn(OH)4] + H2"}, {savol:"ZnCO3 =", javob:"ZnO + CO2"},
+
+                {savol:"Zn(NO3)2 =", javob:"2ZnO + 4NO2 + O2"}, {savol:"ZnO + 2KOH + H2O =", javob:"K2[Zn(OH)4]"}, {savol:"ZnSO4 + 2NaOH =", javob:"Zn(OH)2 + Na2SO4"},
+
+                {savol:"CdSO4 + 2NaOH =", javob:"Cd(OH)2 + Na2SO4"}, {savol:"Zn(OH)2 + 2NaOH =", javob:"Na2[Zn(OH)4]"}, {savol:"Hg(NO3)2 = =", javob:"Hg + 2NO2 + O2"},
+
+                {savol:"Hg(NO3)2 + 2NaOH =", javob:"HgO + 2NaNO3 + H2O"}, {savol:"Hg + 4HNO3 =", javob:"Hg(NO3)2 + 2NO2 + 2H2O"}, {savol:"FeO * Cr2O3 + 4C =", javob:"2Cr + Fe + 4CO"},
+
+                {savol:"2Cr + 3H2SO4 =", javob:"Cr2(SO4)3 + 3H2"}, {savol:"Cr + 2HCl =", javob:"CrCl2 + H2"}, {savol:"4Cr + 3O2 =", javob:"2Cr2O3"},
+
+                {savol:"Cr + N2 =", javob:"2CrN"}, {savol:"2Cr + 3H2O =", javob:"Cr2O3 + 3H2"}, {savol:"CrO + 2HCl =", javob:"CrCl2 + H2O"},
+
+                {savol:"Cr(OH)2 + 2HCl =", javob:"CrCl2 + 2H2O"}, {savol:"CrCl2 + 2NaOH =", javob:"Cr(OH)2 + 2NaCl"}, {savol:"4Cr(OH)2 + O2 + 2H2O =", javob:"4Cr(OH)3"},
+
+                {savol:"2CrCl2 + 2HCl =", javob:"2CrCl3 + H2"}, {savol:"Cr2O3 + 6HNO3 =", javob:"2Cr(NO3)3 + 3H2O"}, {savol:"Cr2O3 + 2NaOH =", javob:"2NaCrO2 + H2O"},
+
+                {savol:"(NH4)2Cr2O7 =", javob:"Cr2O3 + N2 + 4H2O"}, {savol:"CrCl3 + 3NaOH =", javob:"Cr(OH)3 + 3NaCl"}, {savol:"Cr(OH)3 + 3NaOH =", javob:"Na3[Cr(OH)6]"},
+
+                {savol:"CrO3 + 2NaOH =", javob:"Na2CrO4 + H2O"}, {savol:"3S + 4CrO3 =", javob:"3SO2 + 2Cr2O3"}, {savol:"4CrO3 =", javob:"2Cr2O3 + 3O2"},
+
+                {savol:"K2Cr2O7 + H2SO4 =", javob:"2CrO3 + K2SO4 + H2O"}, {savol:"Na2SO3 + K2Cr2O7 + 4H2SO4 =", javob:"3Na2SO4 + K2SO4 + Cr2(SO4)3 + 4H2O"}, {savol:"FeSO4 + K2Cr2O7 + 7H2SO4 =", javob:"3Fe2(SO4)3 + Cr2(SO4)3 + K2SO4 + 7H2O"},
+
+                {savol:"K2Cr2O7 + KJ + H2SO4 =", javob:"K2SO4 + Cr2(SO4)3 + J2 + H2O"}, {savol:"K2Cr2O7 + H2S + H2SO4 =", javob:"Cr2(SO4)3 + S + K2SO4 + H2O"}, {savol:"Mn3O4 + 2Si =", javob:"3Mn + 2SiO2"},
+
+                {savol:"3Mn3O4 + 8Al =", javob:"9Mn + 4Al2O3"}, {savol:"4Mn + 3O2 =", javob:"2Mn2O3"}, {savol:"Mn + 2H2O =", javob:"Mn(OH)2 + H2"},
+
+                {savol:"Mn + 2HCl =", javob:"MnCl2 + H2"}, {savol:"Mn + H2SO4 =", javob:"MnSO4 + H2"}, {savol:"Mn + 2H2SO4 =", javob:"MnSO4 + SO2 + 2H2O"},
+
+                {savol:"Mn + 4HNO3 =", javob:"Mn(NO3)2 + 2NO2 + 2H2O"}, {savol:"2KMeansO4 + H2SO4 =", javob:"Mn2O7 + K2SO4 + H2O"}, {savol:"2Mn2O7 =", javob:"4MnO2 + 3O2"},
+
+                {savol:"2KMnO4 + 10KCl + 8H2SO4 =", javob:"6K2SO4 + 2MnSO4 + 5Cl2 + 8H2O"}, {savol:"KMnO4 + K2SO3 + 2KOH =", javob:"K2SO4 + 2K2MnO4 + H2O"}, {savol:"KMnO4 + 3K2SO3 + H2O =", javob:"2MnO2 + 3K2SO4 + 2KOH"},
+
+                {savol:"MnO2 + KOH + KNO3 =", javob:"K2MO4 + KNO2 + H2O"}, {savol:"KMnO4 + HCl =", javob:"KCl + MnCl2 + Cl2 + H2O"}, {savol:"H2O2 + KMnO4 + H2SO4 =", javob:"K2SO4 + MnSO4 + O2 + H2O"},
+
+                {savol:"H2S + KMnO4 + H2SO4 =", javob:"S + MnSO4 + K2SO4 + H2O"}, {savol:"MnO2 + KClO3 + KOH =", javob:"H2MnO4 + KCl + H2O"}, {savol:"K2MnO4 + H2O =", javob:"KMnO4 + MnO2 + KOH"},
+
+                {savol:"KMnO4 + HNO2 + H2SO4 =", javob:"MnSO4 + HNO3 + K2SO4 + H2O"}, {savol:"Fe2O3 + 3CO =", javob:"2Fe + 3CO2"}, {savol:"3Fe + C =", javob:"Fe3C"},
+
+                {savol:"Fe + 4HNO3 (isitilgan) =", javob:"Fe(NO3)3 + NO + 2H2O"}, {savol:"5Fe + 12HNO3 (juda suyl.) =", javob:"5Fe(NO3)2 + N2 + 6H2O"}, {savol:"FeCl2 + K3[Fe(CN)6] =", javob:"KFe[Fe(CN)6] + 2KCl"},
+
+                {savol:"2Fe + 6H2SO4 =", javob:"Fe2(SO4)3 + 3SO2 + 6H2O"}, {savol:"FeCl3 + K4[Fe(CN)6] =", javob:"KFe[Fe(CN)6] + 3KCl"}, {savol:"FeCl3 + 3KNCS =", javob:"Fe(NCS)3 + 3KCl"},
+
+                {savol:"4Fe(OH)2 + 2H2O + O2 =", javob:"4Fe(OH)3"}, {savol:"3Fe2O3 + CO =", javob:"2Fe3O4 + CO2"}, {savol:"H2O + C =", javob:"H2 + CO"},
+
+                {savol:"5FeO + 2P =", javob:"5Fe + P2O5"}, {savol:"2FeO + Si =", javob:"2Fe + SiO2"}, {savol:"FeO + Mn =", javob:"Fe + MnO"},
+
+                {savol:"FeS + CaO =", javob:"CaS + FeO"}, {savol:"3CaO + P2O5 =", javob:"Ca3(PO4)2"}, {savol:"C2H4 + 3O2 =", javob:"2CO2 + 2H2O"},
+
+                {savol:"Pb(NO3)2 + NaCl =", javob:"PbCl2 + NaNO3"}, {savol:"Na2CO3 + H2SO4 =", javob:"Na2SO4 + H2O + CO2"}, {savol:"Al(NO3)3 + KOH =", javob:"Al(OH)3 + H2O"},
+
+                {savol:"AgNO3 + AlCl3 =", javob:"Al(NO3)3 + AgCl"}
+            ]
+        },
+        colors: {
+            // 🎨 MODDA VA UNING RANGLARI REJIMIDAGI BARCHA SAVOLLAR
+            1: [
+                // 1. Oq rangli moddalar
+                {savol:"BaSO4 qanday rangda? (H2O va kislotada erimaydi)", variantlar:["Oq", "Sariq", "Qizil", "Qora"], javob:"Oq"},
+                {savol:"CaCO3 qanday rangda?", variantlar:["Oq", "Sariq", "Qora", "Yashil"], javob:"Oq"},
+                {savol:"PbCl2 qanday rangda?", variantlar:["Oq", "Yashil", "Qizil", "Qo'ng'ir"], javob:"Oq"},
+                {savol:"PbBr2 qanday rangda?", variantlar:["Oq", "Sariq", "Qora", "Qo'ng'ir"], javob:"Oq"},
+                {savol:"AgCl qanday rangda? (oq paxtasimon cho'kma, vaqt o'tishi bilan qorayadi)", variantlar:["Oq", "Sariq", "Qizil", "Yashil"], javob:"Oq"},
+                {savol:"Ca(OH)2 qanday rangda? (govak modda)", variantlar:["Oq", "Sariq", "Qizil", "Qora"], javob:"Oq"},
+                {savol:"Zn(OH)2 qanday rangda?", variantlar:["Oq", "Yashil", "Qo'ng'ir", "Qora"], javob:"Oq"},
+                {savol:"Al(OH)3 qanday rangda?", variantlar:["Oq", "Sariq", "Qizil", "Yashil"], javob:"Oq"},
+                {savol:"To'yingan cho'yan qanday rangda?", variantlar:["Oq", "Qora", "Qizil", "Qo'ng'ir"], javob:"Oq"},
+                {savol:"CaO qanday rangda?", variantlar:["Oq", "Sariq", "Qora", "Yashil"], javob:"Oq"},
+                {savol:"CuSO4 qanday rangda?", variantlar:["Oq", "Yashil", "Qizil", "Sariq"], javob:"Oq"},
+                {savol:"ZnO qanday rangda?", variantlar:["Oq", "Qora", "Qo'ng'ir", "Sariq"], javob:"Oq"},
+                {savol:"P2O5 qanday rangda?", variantlar:["Oq", "Qora", "Qizil", "Yashil"], javob:"Oq"},
+                {savol:"P4 (oq fosfor) qanday rangda?", variantlar:["Oq", "Sariq", "Qizil", "Qora"], javob:"Oq"},
+                {savol:"NaNO3 qanday rangda?", variantlar:["Oq", "Sariq", "Yashil", "Qo'ng'ir"], javob:"Oq"},
+                {savol:"KNO3 qanday rangda?", variantlar:["Oq", "Qizil", "Qora", "Yashil"], javob:"Oq"},
+                {savol:"NH4NO3 qanday rangda?", variantlar:["Oq", "Sariq", "Qizil", "Qo'ng'ir"], javob:"Oq"},
+                {savol:"CO(NH2)2 qanday rangda?", variantlar:["Oq", "Qora", "Yashil", "Sariq"], javob:"Oq"},
+                {savol:"NH4H2PO4 qanday rangda?", variantlar:["Oq", "Qizil", "Qo'ng'ir", "Yashil"], javob:"Oq"},
+                {savol:"KCl qanday rangda?", variantlar:["Oq", "Sariq", "Qora", "Yashil"], javob:"Oq"},
+                {savol:"KOH qanday rangda?", variantlar:["Oq", "Qizil", "Qo'ng'ir", "Qora"], javob:"Oq"},
+                {savol:"NaOH qanday rangda?", variantlar:["Oq", "Sariq", "Yashil", "Qora"], javob:"Oq"},
+
+                // 2. Sariq rangli moddalar
+                {savol:"Ag3PO4 qanday rangda?", variantlar:["Sariq", "Oq", "Qizil", "Qora"], javob:"Sariq"},
+                {savol:"Cr(OH)2 qanday rangda?", variantlar:["Sariq", "Oq", "Yashil", "Qo'ng'ir"], javob:"Sariq"},
+                {savol:"Na (alangani qaysi rangga boyaydi?)", variantlar:["Sariq", "Qizil", "Yashil", "Oq"], javob:"Sariq"},
+                {savol:"AgI qanday rangda?", variantlar:["Sariq", "Oq", "Qora", "Qo'ng'ir"], javob:"Sariq"},
+                {savol:"PbI2 qanday rangda?", variantlar:["Sariq", "Oq", "Qizil", "Yashil"], javob:"Sariq"},
+                {savol:"AgBr qanday rangda? (sargish)", variantlar:["Sariq", "Oq", "Qora", "Yashil"], javob:"Sariq"},
+                {savol:"Au (oltin) qanday rangda?", variantlar:["Sariq", "Oq", "Qizil", "Qo'ng'ir"], javob:"Sariq"},
+                {savol:"Hg2O (maydalangan holatda) qanday rangda?", variantlar:["Sariq", "Qora", "Yashil", "Oq"], javob:"Sariq"},
+                {savol:"CdS qanday rangda? (sariq rangli boyoq olinadi)", variantlar:["Sariq", "Oq", "Qizil", "Qora"], javob:"Sariq"},
+                {savol:"H2CrO4 qanday rangda?", variantlar:["Sariq", "Yashil", "Qo'ng'ir", "Oq"], javob:"Sariq"},
+                {savol:"H2Cr2O7 qanday rangda?", variantlar:["Sariq", "Qizil", "Qora", "Oq"], javob:"Sariq"},
+                {savol:"HMnO4 qanday rangda? (xarakterli to'q sariq)", variantlar:["Sariq", "Qizil", "Yashil", "Qo'ng'ir"], javob:"Sariq"},
+                {savol:"BaCrO4 qanday rangda?", variantlar:["Sariq", "Oq", "Qora", "Yashil"], javob:"Sariq"},
+                {savol:"K4[Fe(CN)6] (sariq qon tuzi) qanday rangda?", variantlar:["Sariq", "Qizil", "Oq", "Qo'ng'ir"], javob:"Sariq"},
+                {savol:"K2Cr2O7 qanday rangda?", variantlar:["Sariq", "Qizil", "Qora", "Yashil"], javob:"Sariq"},
+                {savol:"Oltingugurt kukuni qanday rangda?", variantlar:["Sariq", "Oq", "Yashil", "Qo'ng'ir"], javob:"Sariq"},
+                {savol:"Ftor qanday rangda? (och sariq)", variantlar:["Sariq", "Yashil", "Oq", "Qora"], javob:"Sariq"},
+
+                // 3. Qizil rangli moddalar
+                {savol:"CrO3 qanday rangda?", variantlar:["Qizil", "Sariq", "Qora", "Oq"], javob:"Qizil"},
+                {savol:"Fe2O3 (qizil temirtosh) qanday rangda?", variantlar:["Qizil", "Qo'ng'ir", "Qora", "Oq"], javob:"Qizil"},
+                {savol:"K3[Fe(CN)6] qanday rangda?", variantlar:["Qizil", "Sariq", "Yashil", "Oq"], javob:"Qizil"},
+                {savol:"Cu2O qanday rangda?", variantlar:["Qizil", "Qora", "Sariq", "Qo'ng'ir"], javob:"Qizil"},
+                {savol:"Cu (mis) qanday rangda?", variantlar:["Qizil", "Sariq", "Oq", "Yashil"], javob:"Qizil"},
+                {savol:"HgO qanday rangda?", variantlar:["Qizil", "Sariq", "Qora", "Oq"], javob:"Qizil"},
+                {savol:"KMnO4 qanday rangda?", variantlar:["Qizil", "Yashil", "Qora", "Sariq"], javob:"Qizil"},
+                {savol:"Fe(NCS)3 qanday rangda?", variantlar:["Qizil", "Qo'ng'ir", "Oq", "Yashil"], javob:"Qizil"},
+                {savol:"Pn (qizil fosfor) qanday rangda?", variantlar:["Qizil", "Oq", "Qora", "Sariq"], javob:"Qizil"},
+
+                // 4. Qora rangli moddalar
+                {savol:"PbS qanday rangda?", variantlar:["Qora", "Oq", "Sariq", "Yashil"], javob:"Qora"},
+                {savol:"Grafit qanday rangda?", variantlar:["Qora", "Qo'ng'ir", "Oq", "Qizil"], javob:"Qora"},
+                {savol:"Karbin qanday rangda?", variantlar:["Qora", "Oq", "Yashil", "Sariq"], javob:"Qora"},
+                {savol:"CuO qanday rangda?", variantlar:["Qora", "Qizil", "Sariq", "Yashil"], javob:"Qora"},
+                {savol:"Hg2O qanday rangda?", variantlar:["Qora", "Sariq", "Oq", "Qizil"], javob:"Qora"},
+                {savol:"CrO qanday rangda?", variantlar:["Qora", "Qizil", "Yashil", "Qo'ng'ir"], javob:"Qora"},
+                {savol:"P4 (qora fosfor) qanday rangda?", variantlar:["Qora", "Oq", "Sariq", "Qizil"], javob:"Qora"},
+
+                // 5. Yashil rangli moddalar
+                {savol:"FeSO4 · 7H2O qanday rangda?", variantlar:["Yashil", "Oq", "Qizil", "Qo'ng'ir"], javob:"Yashil"},
+                {savol:"(NH4)2SO4 qanday rangda? (och yashil)", variantlar:["Yashil", "Oq", "Sariq", "Qora"], javob:"Yashil"},
+                {savol:"Cl2 qanday rangda? (sargish yashil)", variantlar:["Yashil", "Sariq", "Oq", "Qora"], javob:"Yashil"},
+                {savol:"Fe(OH)2 qanday rangda? (och yashil)", variantlar:["Yashil", "Oq", "Qo'ng'ir", "Qora"], javob:"Yashil"},
+                {savol:"CuCO3 · Cu(OH)2 qanday rangda?", variantlar:["Yashil", "Qizil", "Sariq", "Oq"], javob:"Yashil"},
+                {savol:"Cr2O3 qanday rangda?", variantlar:["Yashil", "Qora", "Oq", "Qizil"], javob:"Yashil"},
+                {savol:"FeO qanday rangda?", variantlar:["Yashil", "Qora", "Qo'ng'ir", "Oq"], javob:"Yashil"},
+                {savol:"Ni(OH)2 qanday rangda?", variantlar:["Yashil", "Oq", "Sariq", "Qizil"], javob:"Yashil"},
+
+                // 6. Qo'ng'ir rangli moddalar
+                {savol:"NO2 qanday rangda?", variantlar:["Qo'ng'ir", "Qizil", "Sariq", "Yashil"], javob:"Qo'ng'ir"},
+                {savol:"Fe(OH)3 qanday rangda?", variantlar:["Qo'ng'ir", "Oq", "Qora", "Yashil"], javob:"Qo'ng'ir"}
+            ]
+        }
+    };
+
+    let activeDatabase = JSON.parse(localStorage.getItem('ravnaq_quiz_db')) || defaultDatabase;
+
+    let currentMode = '';
+    let currentLevel = '';
+    let questionsPool = [];
+    let questionIndex = 0;
+
+    let totalAnswered = 0;
+    let correctAnswers = 0;
+    let wrongAnswers = 0;
+    let errorLogs = [];
+    let isShowingFeedback = false;
+    let selectedOptionValue = ""; 
+
+    function selectGameMode(mode) {
+        currentMode = mode;
+        document.getElementById('main-menu-screen').style.display = 'none';
+        document.getElementById('level-screen').style.display = 'block';
+
+        let titleText = '';
+        if(mode === 'names') titleText = '1. Modda formulasini topish';
+        if(mode === 'reactions') titleText = '2. Reaksiyani davom ettiring';
+        if(mode === 'colors') titleText = '3. Modda va uning ranglari';
+        document.getElementById('selected-game-title').innerText = titleText;
+
+        let container = document.getElementById('level-buttons-container');
+        container.innerHTML = '';
+
+        if (mode === 'colors') {
+            // Rang rejimi uchun bitta umumiy tugma (barcha ranglarni miks qilib ochadi)
+            let btn = document.createElement('button');
+            btn.className = 'btn-level';
+            btn.onclick = () => startTest('colors', 1);
+            btn.innerHTML = `<span>🎨 Barcha moddalar va ranglar</span> <span class="lvl-num">Aralash</span>`;
+            container.appendChild(btn);
+        } else {
+            // Boshqa rejimlar uchun sinflar / darajalar ro'yxati
+            let levels = Object.keys(activeDatabase[mode]);
+            levels.sort((a,b) => a-b);
+            levels.forEach(lvl => {
+                let btn = document.createElement('button');
+                btn.className = 'btn-level';
+                btn.onclick = () => startTest(mode, lvl);
+                let labelText = mode === 'names' ? `${lvl}-daraja` : `${lvl}-sinf darsligi`;
+                btn.innerHTML = `<span>📘 ${labelText}</span> <span class="lvl-num">${activeDatabase[mode][lvl].length}ta</span>`;
+                container.appendChild(btn);
+            });
+        }
+    }
+
+    function backToMenu() {
+        document.getElementById('level-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'none';
+        document.getElementById('main-menu-screen').style.display = 'block';
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function startTest(mode, level) {
+        currentMode = mode;
+        currentLevel = level;
+        
+        // Massiv nusxasini olib, uni mutlaqo tasodifiy (random) aralashtiramiz
+        let originalQuestions = activeDatabase[mode][level] || [];
+        if(originalQuestions.length === 0) {
+            alert('Bu boʻlimda savollar mavjud emas!');
+            return;
+        }
+        
+        questionsPool = shuffleArray([...originalQuestions]);
+        questionIndex = 0;
+        totalAnswered = 0;
+        correctAnswers = 0;
+        wrongAnswers = 0;
+        errorLogs = [];
+        isShowingFeedback = false;
+
+        document.getElementById('level-screen').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'block';
+
+        let badgeText = '';
+        if(mode==='names') badgeText = `Formula topish | Daraja ${level}`;
+        if(mode==='reactions') badgeText = `Reaksiyalar | ${level}-sinf`;
+        if(mode==='colors') badgeText = `Moddalar va ularning ranglari`;
+        document.getElementById('game-badge').innerText = badgeText;
+
+        showQuestion();
+    }
+
+    function showQuestion() {
+        isShowingFeedback = false;
+        document.getElementById('feedback-alert').style.display = 'none';
+        document.getElementById('feedback-alert').className = 'live-feedback';
+        
+        let btnAction = document.getElementById('btn-next-action');
+        btnAction.innerText = "Javobni tekshirish";
+        btnAction.className = "btn btn-primary";
+
+        if(questionIndex >= questionsPool.length) {
+            finishTest();
+            return;
+        }
+
+        let q = questionsPool[questionIndex];
+        
+        // Sarlavhani moslashtirish
+        if (currentMode === 'colors') {
+            document.getElementById('question-label').innerText = "Rangini toping:";
+            document.getElementById('question-display').innerText = q.savol;
+            
+            // Matnli kiritishni yashirib, Variantlar interfeysini ko'rsatamiz
+            document.getElementById('user-input').style.display = 'none';
+            let optionsBox = document.getElementById('options-box');
+            optionsBox.style.display = 'flex';
+            optionsBox.innerHTML = '';
+            selectedOptionValue = "";
+
+            // Variantlarni ham har safar aralashtirib chiqamiz
+            let shuffledOptions = shuffleArray([...q.variantlar]);
+
+            shuffledOptions.forEach(opt => {
+                let optBtn = document.createElement('button');
+                optBtn.className = 'btn-option';
+                optBtn.innerText = opt;
+                optBtn.onclick = function() {
+                    // Oldingi tanlangan tugma stilini tozalash
+                    let allBtns = optionsBox.querySelectorAll('.btn-option');
+                    allBtns.forEach(b => b.style.borderColor = 'rgba(0, 243, 255, 0.2)');
+                    
+                    // Tanlanganini belgilash
+                    optBtn.style.borderColor = 'var(--neon-green)';
+                    selectedOptionValue = opt;
+                };
+                optionsBox.appendChild(optBtn);
+            });
+
+        } else {
+            document.getElementById('question-label').innerText = "Topshiriq:";
+            document.getElementById('question-display').innerText = q.savol;
+            
+            // Matnli kiritish interfeysini tiklash
+            document.getElementById('user-input').style.display = 'block';
+            document.getElementById('options-box').style.display = 'none';
+            document.getElementById('user-input').value = '';
+            document.getElementById('user-input').focus();
+        }
+    }
+
+    function checkAnswer() {
+        let q = questionsPool[questionIndex];
+        let btnAction = document.getElementById('btn-next-action');
+
+        if(isShowingFeedback) {
+            questionIndex++;
+            showQuestion();
+            return;
+        }
+
+        let userAns = "";
+        if (currentMode === 'colors') {
+            if(!selectedOptionValue) {
+                alert("Iltimos, variantlardan birini tanlang!");
+                return;
+            }
+            userAns = selectedOptionValue;
+        } else {
+            userAns = document.getElementById('user-input').value.trim();
+            if(!userAns) return;
+        }
+
+        let correctAns = q.javob.trim();
+        let isCorrect = userAns.toLowerCase() === correctAns.toLowerCase();
+
+        totalAnswered++;
+        let alertBox = document.getElementById('feedback-alert');
+        alertBox.style.display = 'block';
+
+        if(isCorrect) {
+            correctAnswers++;
+            alertBox.className = "live-feedback correct";
+            alertBox.innerHTML = `🎉 <strong>Toʻgʻri!</strong> Ofarin.`;
+        } else {
+            wrongAnswers++;
+            alertBox.className = "live-feedback wrong";
+            alertBox.innerHTML = `❌ <strong>Xato!</strong><br>Sizning javob: <span class="user-ans">${userAns}</span><br>Toʻgʻri javob: <span class="correct-ans">${correctAns}</span>`;
+            
+            errorLogs.push({
+                savol: q.savol,
+                user: userAns,
+                correct: correctAns
+            });
+        }
+
+        isShowingFeedback = true;
+        btnAction.innerText = "Keyingi savol ➔";
+        btnAction.className = "btn";
+        btnAction.style.background = "linear-gradient(90deg, #00e5ff, #00ffaa)";
+        btnAction.style.color = "#03141a";
+    }
+
+    function finishTest() {
+        document.getElementById('game-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+
+        document.getElementById('stat-total').innerText = totalAnswered;
+        document.getElementById('stat-correct').innerText = correctAnswers;
+        document.getElementById('stat-wrong').innerText = wrongAnswers;
+        
+        let percent = totalAnswered > 0 ? Math.round((correctAnswers / totalAnswered) * 100) : 0;
+        document.getElementById('stat-percent').innerText = percent + "%";
+
+        let errorContainer = document.getElementById('error-analysis-container');
+        errorContainer.innerHTML = '';
+
+        if(errorLogs.length === 0) {
+            errorContainer.innerHTML = `<div style="color: var(--neon-green); font-size:14px; padding: 10px 0;">Ajoyib natija! Hech qanday xato qilmadingiz. 👍</div>`;
+        } else {
+            errorLogs.forEach(err => {
+                let item = document.createElement('div');
+                item.className = 'error-log-item';
+                item.innerHTML = `<strong>${err.savol}</strong>
+                                  <div>Siz: <span class="user-ans">${err.user}</span></div>
+                                  <div>Asli: <span class="correct-ans">${err.correct}</span></div>`;
+                errorContainer.appendChild(item);
+            });
+        }
+    }
+
+    // ⚙️ ADMIN PANEL FUNKSIYALARI
+    function askAdminPassword() {
+        let pass = prompt("Admin parolini kiriting:");
+        if(pass === "ravnaq2026" || pass === "1") {
+            openAdmin();
+        } else if(pass !== null) {
+            alert("Parol notoʻgʻri!");
+        }
+    }
+
+    function openAdmin() {
+        document.getElementById('main-menu-screen').style.display = 'none';
+        document.getElementById('level-screen').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'none';
+        document.getElementById('admin-screen').style.display = 'block';
+        onAdminGameTypeChange();
+    }
+
+    function closeAdmin() {
+        document.getElementById('admin-screen').style.display = 'none';
+        document.getElementById('main-menu-screen').style.display = 'block';
+    }
+
+    function onAdminGameTypeChange() {
+        let gType = document.getElementById('admin-game-type').value;
+        let lvlSelect = document.getElementById('admin-level-type');
+        lvlSelect.innerHTML = '';
+
+        let levels = Object.keys(activeDatabase[gType] || {});
+        levels.sort((a,b)=>a-b);
+
+        levels.forEach(l => {
+            let opt = document.createElement('option');
+            opt.value = l;
+            opt.innerText = gType === 'colors' ? "Barcha ranglar" : (gType === 'names' ? `${l}-daraja` : `${l}-sinf`);
+            lvlSelect.appendChild(opt);
+        });
+        loadAdminQuestions();
+    }
+
+    function loadAdminQuestions() {
+        let gType = document.getElementById('admin-game-type').value;
+        let lvl = document.getElementById('admin-level-type').value;
+        let container = document.getElementById('admin-questions-list');
+        container.innerHTML = '';
+
+        if(!lvl || !activeDatabase[gType] || !activeDatabase[gType][lvl]) return;
+
+        let list = activeDatabase[gType][lvl];
+        list.forEach((item, index) => {
+            let div = document.createElement('div');
+            div.className = 'admin-item';
+            let txt = gType === 'colors' ? `${item.savol} -> ${item.javob}` : `${item.savol} -> ${item.javob}`;
+            div.innerHTML = `<span>${index+1}. ${txt}</span> 
+                             <button onclick="deleteAdminQuestion('${gType}','${lvl}', ${index})">❌</button>`;
+            container.appendChild(div);
+        });
+    }
+
+    function addCustomQuestion() {
+        let gType = document.getElementById('admin-game-type').value;
+        let lvl = document.getElementById('admin-level-type').value;
+        let qInp = document.getElementById('admin-input-question').value.trim();
+        let aInp = document.getElementById('admin-input-answer').value.trim();
+
+        if(!qInp || !aInp) {
+            alert("Savol va javobni toʻliq kiriting!");
+            return;
+        }
+
+        if(!activeDatabase[gType][lvl]) {
+            activeDatabase[gType][lvl] = [];
+        }
+
+        if (gType === 'colors') {
+            // Rang kiritilganda variantlarni ham avtomatik yaratish
+            activeDatabase[gType][lvl].push({
+                savol: qInp,
+                variantlar: [aInp, "Oq", "Sariq", "Qora"], // default muqobil variantlar
+                javob: aInp
+            });
+        } else {
+            activeDatabase[gType][lvl].push({
+                savol: qInp,
+                javob: aInp
+            });
+        }
+
+        localStorage.setItem('ravnaq_quiz_db', JSON.stringify(activeDatabase));
+        document.getElementById('admin-input-question').value = '';
+        document.getElementById('admin-input-answer').value = '';
+        loadAdminQuestions();
+    }
+
+    function deleteAdminQuestion(gType, lvl, index) {
+        if(confirm("Ushbu savolni oʻchirishni xohlaysizmi?")) {
+            activeDatabase[gType][lvl].splice(index, 1);
+            localStorage.setItem('ravnaq_quiz_db', JSON.stringify(activeDatabase));
+            loadAdminQuestions();
+        }
+    }
+
+    // Enter tugmasi orqali yuborish (Matn kiritish rejimi uchun)
+    document.getElementById('user-input').addEventListener('keydown', function(e) {
+        if(e.key === 'Enter') {
+            checkAnswer();
+        }
+    });
+</script>
+
+</body>
+</html>
